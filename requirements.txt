@@ -1,0 +1,7 @@
+streamlit
+requests
+urllib3
+beautifulsoup4
+python-dotenv
+google-search-results
+supabase
