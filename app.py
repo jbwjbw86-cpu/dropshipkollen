@@ -9,6 +9,20 @@ from dotenv import load_dotenv
 from serpapi import GoogleSearch
 from supabase import create_client, Client
 
+# Dölj Streamlit-meny, GitHub-ikon och fotnot
+hide_streamlit_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
+    footer {visibility: hidden;}
+    .stDeployButton {display:none;}
+    [data-testid="stToolbar"] {visibility: hidden; display: none !important;}
+    [data-testid="stDecoration"] {display: none;}
+    [data-testid="stStatusWidget"] {visibility: hidden;}
+    </style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 load_dotenv()
