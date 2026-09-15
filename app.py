@@ -9,36 +9,22 @@ from dotenv import load_dotenv
 from serpapi import GoogleSearch
 from supabase import create_client, Client
 
-# Dölj Streamlit-meny, GitHub-ikon och fotnot
+# Dölj Streamlit-meny, GitHub-ikon, fotnot och flytande länkar i hörnet
 hide_streamlit_style = """
     <style>
     #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
-    footer {visibility: hidden;}
+    footer {visibility: hidden !important; display: none !important;}
     .stDeployButton {display:none;}
-    [data-testid="stToolbar"] {visibility: hidden; display: none !important;}
+    [data-testid="stToolbar"] {visibility: hidden !important; display: none !important;}
     [data-testid="stDecoration"] {display: none;}
     [data-testid="stStatusWidget"] {visibility: hidden;}
+    
+    /* Tvinga bort länkarna i nedre högra hörnet med wildcards */
+    a[href^="https://streamlit.io/cloud"] {display: none !important;}
+    div[class*="viewerBadge"] {display: none !important;}
     </style>
 """
-
-hide_streamlit_style = """
-    <style>
-    #MainMenu {visibility: hidden;}
-    header {visibility: hidden;}
-    footer {visibility: hidden;}
-    .stDeployButton {display:none;}
-    [data-testid="stToolbar"] {visibility: hidden; display: none !important;}
-    [data-testid="stDecoration"] {display: none;}
-    [data-testid="stStatusWidget"] {visibility: hidden;}
-    .viewerBadge_container__1QSob,
-    .viewerBadge_link__1S137,
-    [class*="viewerBadge"] {display: none !important;}
-    footer:after {content: ""; display: none;}
-    </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -126,6 +112,7 @@ st.markdown("""
         .hero-container {
             text-align: center;
             margin-bottom: 1.5rem;
+            margin-top: 2rem;
         }
 
         .badge {
