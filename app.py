@@ -21,6 +21,24 @@ hide_streamlit_style = """
     [data-testid="stStatusWidget"] {visibility: hidden;}
     </style>
 """
+
+hide_streamlit_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
+    footer {visibility: hidden;}
+    .stDeployButton {display:none;}
+    [data-testid="stToolbar"] {visibility: hidden; display: none !important;}
+    [data-testid="stDecoration"] {display: none;}
+    [data-testid="stStatusWidget"] {visibility: hidden;}
+    .viewerBadge_container__1QSob,
+    .viewerBadge_link__1S137,
+    [class*="viewerBadge"] {display: none !important;}
+    footer:after {content: ""; display: none;}
+    </style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
