@@ -12,17 +12,40 @@ from supabase import create_client, Client
 # Dölj Streamlit-meny, GitHub-ikon, fotnot och flytande länkar i hörnet
 hide_streamlit_style = """
     <style>
+    /* Dölj standardmeny och header/footer */
     #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
     footer {visibility: hidden !important; display: none !important;}
-    .stDeployButton {display:none;}
-    [data-testid="stToolbar"] {visibility: hidden !important; display: none !important;}
-    [data-testid="stDecoration"] {display: none;}
-    [data-testid="stStatusWidget"] {visibility: hidden;}
     
-    /* Tvinga bort länkarna i nedre högra hörnet med wildcards */
-    a[href^="https://streamlit.io/cloud"] {display: none !important;}
-    div[class*="viewerBadge"] {display: none !important;}
+    /* Dölj knappar i övre högra hörnet */
+    .stDeployButton {display:none !important;}
+    [data-testid="stToolbar"] {visibility: hidden !important; display: none !important;}
+    [data-testid="stDecoration"] {display: none !important;}
+    [data-testid="stStatusWidget"] {visibility: hidden !important;}
+    
+    /* AGGRESSIV BORTTAGNING AV "HOSTED WITH STREAMLIT"-BADGEN */
+    /* Metod 1: Dölj alla element som har en länk som pekar mot Streamlit */
+    a[href*="streamlit.io"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+    
+    /* Metod 2: Dölj ordet "Streamlit" i alla bilder (ikonen) */
+    img[alt*="Streamlit"] {
+        display: none !important;
+    }
+    
+    /* Metod 3: Dölj ramar (iframes) från Streamlit */
+    iframe[title*="Streamlit"] {
+        display: none !important;
+    }
+    
+    /* Metod 4: Dölj det sista lösa elementet i DOM-trädet där badgen brukar injiceras */
+    div[data-testid="stAppViewContainer"] > div:last-child > div:last-child {
+        display: none !important;
+    }
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
