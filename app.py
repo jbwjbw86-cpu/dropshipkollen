@@ -9,11 +9,22 @@ from dotenv import load_dotenv
 from serpapi import GoogleSearch
 from supabase import create_client, Client
 
+# --- UX & DESIGN CONFIG ---
+# (Måste vara det första st-kommandot i koden)
+st.set_page_config(
+    page_title="DropShipKollen – Avslöja Kinakopiorna", 
+    page_icon="🕵️‍♂️", 
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
+
 # Dölj Streamlit-meny, GitHub-ikon, fotnot och flytande länkar i hörnet
+# Vi döljer 'header' helt eftersom vi inte längre använder sidomenyn!
 hide_streamlit_style = """
     <style>
     /* Dölj standardmeny och header/footer */
     #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
     footer {visibility: hidden !important; display: none !important;}
     
     /* Dölj knappar i övre högra hörnet */
@@ -23,25 +34,14 @@ hide_streamlit_style = """
     [data-testid="stStatusWidget"] {visibility: hidden !important;}
     
     /* AGGRESSIV BORTTAGNING AV "HOSTED WITH STREAMLIT"-BADGEN */
-    /* Metod 1: Dölj alla element som har en länk som pekar mot Streamlit */
     a[href*="streamlit.io"] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
         pointer-events: none !important;
     }
-    
-    /* Metod 2: Dölj ordet "Streamlit" i alla bilder (ikonen) */
-    img[alt*="Streamlit"] {
-        display: none !important;
-    }
-    
-    /* Metod 3: Dölj ramar (iframes) från Streamlit */
-    iframe[title*="Streamlit"] {
-        display: none !important;
-    }
-    
-    /* Metod 4: Dölj det sista lösa elementet i DOM-trädet där badgen brukar injiceras */
+    img[alt*="Streamlit"] { display: none !important; }
+    iframe[title*="Streamlit"] { display: none !important; }
     div[data-testid="stAppViewContainer"] > div:last-child > div:last-child {
         display: none !important;
     }
@@ -62,14 +62,6 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }
 WHOLESALE_DOMAINS = ["aliexpress.com", "temu.com", "1688.com", "taobao.com", "dhgate.com"]
-
-# --- UX & DESIGN CONFIG ---
-st.set_page_config(
-    page_title="DropShipKollen – Avslöja Kinakopiorna", 
-    page_icon="🕵️‍♂️", 
-    layout="centered",
-    initial_sidebar_state="expanded"
-)
 
 st.markdown("""
     <style>
@@ -231,48 +223,6 @@ st.markdown("""
             text-align: center;
         }
 
-        [data-testid="collapsedControl"] {
-            position: relative;
-        }
-        [data-testid="collapsedControl"]:hover::after {
-            content: "Senaste sökningar på sidan";
-            position: absolute;
-            left: 48px;
-            top: 50%;
-            transform: translateY(-50%);
-            white-space: nowrap;
-            background: #0F172A;
-            color: #FFFFFF;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            pointer-events: none;
-            z-index: 999999;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-        }
-
-        [data-testid="stSidebarCollapseButton"] {
-            position: relative;
-        }
-        [data-testid="stSidebarCollapseButton"]:hover::after {
-            content: "Dölj senaste sökningar";
-            position: absolute;
-            right: 48px;
-            top: 50%;
-            transform: translateY(-50%);
-            white-space: nowrap;
-            background: #0F172A;
-            color: #FFFFFF;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            pointer-events: none;
-            z-index: 999999;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-        }
-
         .stButton>button {
             border-radius: 10px;
             font-weight: 700;
@@ -407,57 +357,8 @@ def get_existing_search(store_url: str):
 query_params = st.query_params
 selected_url_from_history = query_params.get("url", None)
 
-# --- SIDOBAR FÖR HISTORIK ---
-with st.sidebar:
-    st.markdown("<h3 style='text-align: center;'>🕒 Senast granskade</h3>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #64748B; font-size: 0.85rem;'>Klicka på en produkt för att ladda granskningen direkt.</p>", unsafe_allow_html=True)
-    
-    filter_choice = st.selectbox(
-        "Filtrera:",
-        ["Alla", "🚨 Endast Dropshipping", "✅ Endast Rena"]
-    )
-    
-    st.divider()
-    
-    try:
-        response = supabase.table("scraped_products").select("*").order("scraped_at", desc=True).limit(20).execute()
-        recent_items = response.data
-        
-        if not recent_items:
-            st.info("Inga sökningar gjorda än.")
-        else:
-            filtered_items = []
-            for item in recent_items:
-                is_dropship = bool(item.get("dropship_source"))
-                if filter_choice == "Alla":
-                    filtered_items.append(item)
-                elif filter_choice == "🚨 Endast Dropshipping" and is_dropship:
-                    filtered_items.append(item)
-                elif filter_choice == "✅ Endast Rena" and not is_dropship:
-                    filtered_items.append(item)
-            
-            filtered_items = filtered_items[:6]
-            
-            if not filtered_items:
-                st.info("Inga träffar för detta filter.")
-            else:
-                for item in filtered_items:
-                    title = item.get('store_title', 'Okänd produkt')
-                    item_url = item.get('store_url', '')
-                    is_dropship = bool(item.get("dropship_source"))
-                    badge_label = f"🚨 {item.get('dropship_source')}" if is_dropship else "✅ Grön flagg"
-                    
-                    with st.container(border=True):
-                        st.markdown(f"<div style='text-align: center; font-weight: 700;'>{title[:32]}...</div>" if len(title) > 32 else f"<div style='text-align: center; font-weight: 700;'>{title}</div>", unsafe_allow_html=True)
-                        st.markdown(f"<div style='text-align: center; color: #64748B; font-size: 0.8rem; margin-bottom: 8px;'>{badge_label}</div>", unsafe_allow_html=True)
-                        if st.button("Visa granskning", key=f"hist_{item['id']}", use_container_width=True):
-                            st.query_params["url"] = item_url
-                            st.rerun()
-    except Exception:
-        st.error("Kunde inte ladda historik.")
-
-# --- TOPPMENY ---
-tab_search, tab_about = st.tabs(["🔍 Granska Butik", "📖 Konsumentguide"])
+# --- TOPPMENY (Nu med Historik som flik) ---
+tab_search, tab_history, tab_about = st.tabs(["🔍 Granska Butik", "🕒 Historik", "📖 Konsumentguide"])
 
 with tab_search:
     # Hero
@@ -623,6 +524,60 @@ with tab_search:
                         col1, col2, col3 = st.columns([1,2,1])
                         with col2:
                             st.image(product["image_url"], caption=product['title'], use_container_width=True)
+
+with tab_history:
+    st.markdown("<h3 style='text-align: center;'>🕒 Senast granskade produkter</h3>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #64748B; font-size: 0.9rem; margin-bottom: 2rem;'>Klicka på en produkt för att hämta fram granskningen direkt.</p>", unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        filter_choice = st.selectbox(
+            "Filtrera resultat:",
+            ["Alla", "🚨 Endast Dropshipping", "✅ Endast Rena"],
+            label_visibility="collapsed"
+        )
+    
+    st.write("")
+    
+    try:
+        response = supabase.table("scraped_products").select("*").order("scraped_at", desc=True).limit(30).execute()
+        recent_items = response.data
+        
+        if not recent_items:
+            st.info("Inga sökningar gjorda än.")
+        else:
+            filtered_items = []
+            for item in recent_items:
+                is_dropship = bool(item.get("dropship_source"))
+                if filter_choice == "Alla":
+                    filtered_items.append(item)
+                elif filter_choice == "🚨 Endast Dropshipping" and is_dropship:
+                    filtered_items.append(item)
+                elif filter_choice == "✅ Endast Rena" and not is_dropship:
+                    filtered_items.append(item)
+            
+            filtered_items = filtered_items[:12]
+            
+            if not filtered_items:
+                st.info("Inga träffar för detta filter.")
+            else:
+                cols = st.columns(2)
+                for index, item in enumerate(filtered_items):
+                    col_idx = index % 2
+                    with cols[col_idx]:
+                        title = item.get('store_title', 'Okänd produkt')
+                        item_url = item.get('store_url', '')
+                        is_dropship = bool(item.get("dropship_source"))
+                        badge_label = f"🚨 {item.get('dropship_source')}" if is_dropship else "✅ Grön flagg"
+                        
+                        with st.container(border=True):
+                            st.markdown(f"<div style='text-align: center; font-weight: 700; font-size: 0.95rem; height: 2.5em; overflow: hidden;'>{title[:40]}...</div>" if len(title) > 40 else f"<div style='text-align: center; font-weight: 700; font-size: 0.95rem; height: 2.5em;'>{title}</div>", unsafe_allow_html=True)
+                            st.markdown(f"<div style='text-align: center; color: #64748B; font-size: 0.85rem; margin-bottom: 12px;'>{badge_label}</div>", unsafe_allow_html=True)
+                            if st.button("Visa", key=f"hist_tab_{item['id']}", use_container_width=True):
+                                st.query_params["url"] = item_url
+                                st.rerun()
+    except Exception:
+        st.error("Kunde inte ladda historik.")
 
 with tab_about:
     st.markdown("<h3 style='text-align: center;'>Vad är egentligen Drop-shipping?</h3>", unsafe_allow_html=True)
