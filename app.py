@@ -77,51 +77,56 @@ st.markdown("""
             text-align: center;
         }
 
-        div[data-testid="stTabs"] {
-            margin-bottom: 2rem;
-            border-bottom: none !important;
-        }
+/* Tvinga bort Streamlits egna marginaler */
+    div[data-testid="stTabs"] {
+        margin-bottom: 2rem;
+    }
 
-        div[data-testid="stTabs"] [data-baseweb="tab-list"] {
-            gap: 12px;
-            background-color: #F1F5F9;
-            padding: 6px;
-            border-radius: 12px;
-            border: 1px solid #E2E8F0;
-            width: fit-content;
-            margin: 0 auto;
-        }
+    /* Centrera menyn och ta bort den grå bakgrundsrutan */
+    div[data-testid="stTabs"] [data-baseweb="tab-list"] {
+        gap: 32px; /* Skapar ett snyggt och luftigt avstånd mellan valen */
+        background-color: transparent !important; 
+        padding: 0;
+        border: none !important;
+        width: fit-content;
+        margin: 0 auto;
+    }
 
-        div[data-testid="stTabs"] [data-baseweb="tab"] {
-            height: 42px;
-            padding: 0 20px;
-            background-color: transparent;
-            border-radius: 8px;
-            border: none !important;
-            color: #64748B;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-        }
+    /* Större och renare text för menyvalen */
+    div[data-testid="stTabs"] [data-baseweb="tab"] {
+        height: 50px;
+        padding: 0 8px;
+        background-color: transparent !important;
+        border: none !important;
+        color: #64748B;
+        font-weight: 600;
+        font-size: 1.2rem; /* Här gör vi texten större! */
+        transition: all 0.2s ease;
+        border-radius: 0 !important;
+    }
 
-        div[data-testid="stTabs"] [data-baseweb="tab"]:hover {
-            color: #0F172A;
-        }
+    /* Färg när musen svävar över */
+    div[data-testid="stTabs"] [data-baseweb="tab"]:hover {
+        color: #0F172A;
+    }
 
-        div[data-testid="stTabs"] [aria-selected="true"] {
-            background-color: #FFFFFF !important;
-            color: #0F172A !important;
-            font-weight: 700 !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-        }
+    /* Det AKTIVA valet (Understruket istället för en vit ruta) */
+    div[data-testid="stTabs"] [aria-selected="true"] {
+        background-color: transparent !important;
+        color: #0F172A !important;
+        font-weight: 800 !important;
+        box-shadow: none !important; /* Tar bort skuggan */
+        border-bottom: 3px solid #0F172A !important; /* Den snygga understrykningen */
+    }
 
-        div[data-testid="stTabs"] [data-baseweb="tab-border"],
-        div[data-testid="stTabs"] [data-baseweb="tab-highlight"],
-        div[data-testid="stTabs"] hr {
-            display: none !important;
-            border: none !important;
-            height: 0px !important;
-        }
+    /* Tvinga bort alla Streamlits inbyggda linjer och avdelare under menyn */
+    div[data-testid="stTabs"] [data-baseweb="tab-border"],
+    div[data-testid="stTabs"] [data-baseweb="tab-highlight"],
+    div[data-testid="stTabs"] hr {
+        display: none !important;
+        border: none !important;
+        background-color: transparent !important;
+    }
 
         .hero-container {
             text-align: center;
