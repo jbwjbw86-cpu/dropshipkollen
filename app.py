@@ -14,7 +14,6 @@ hide_streamlit_style = """
     <style>
     /* Dölj standardmeny och header/footer */
     #MainMenu {visibility: hidden;}
-    header {visibility: hidden;}
     footer {visibility: hidden !important; display: none !important;}
     
     /* Dölj knappar i övre högra hörnet */
