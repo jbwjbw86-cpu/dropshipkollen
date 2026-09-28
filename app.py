@@ -622,3 +622,17 @@ with tab_about:
         <strong>3. Avslöjande:</strong> Om samma produkt säljs till en bråkdel av priset hos en grossist, får du en varningsflagg direkt tillsammans med en direktlänk till originalet!
         </div>
     """, unsafe_allow_html=True)
+    # --- SEO & INTEGRITETSPOLICY (Längst ner på sidan) ---
+st.divider()
+st.markdown("""
+    <div style='text-align: center; color: #64748B; font-size: 0.8rem; max-width: 800px; margin: 2rem auto; line-height: 1.6;'>
+        <h4>Om DropShipKollen & Konsumentupplysning</h4>
+        <p>DropShipKollen är ett oberoende verktyg skapat för att hjälpa svenska e-handelskunder att identifiera dropshipping och undvika onödiga överpriser. Vi använder avancerad bildigenkänning för att matcha produkters utseende mot asiatiska grossister som AliExpress, Temu och DHgate. Vårt mål är att skapa en tryggare och mer transparent e-handel där du som konsument har rätt information innan du genomför ditt köp.</p>
+        
+        <h4>Integritetspolicy & Cookies (Privacy Policy)</h4>
+        <p>Vi respekterar din personliga integritet. Denna webbplats använder Googles annonssystem (AdSense) och affiliatelänkar för att finansiera driften. Tredjepartsleverantörer, inklusive Google, använder cookies för att visa annonser baserat på dina tidigare besök på denna och andra webbplatser. Googles användning av annonscookies gör det möjligt för dem och deras partners att visa annonser baserat på din surfhistorik. Du kan när som helst välja bort personligt anpassad marknadsföring genom att besöka <a href="https://www.google.com/settings/ads" target="_blank" style="color: #64748B; text-decoration: underline;">Googles annonsinställningar</a>.</p>
+        
+        <p>Vi sparar inga personuppgifter om dig när du gör en sökning. Historiken som visas baseras enbart på inmatade butikslänkar och delas generiskt för alla användare för att bygga en varningsdatabas. Vid frågor eller synpunkter är du välkommen att kontakta oss.</p>
+        <p>&copy; 2026 DropShipKollen. Alla rättigheter reserverade.</p>
+    </div>
+""", unsafe_allow_html=True)
