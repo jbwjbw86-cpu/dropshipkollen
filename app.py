@@ -20,7 +20,6 @@ st.set_page_config(
 )
 
 # Dölj Streamlit-meny, GitHub-ikon, fotnot och flytande länkar i hörnet
-# Vi döljer 'header' helt eftersom vi inte längre använder sidomenyn!
 hide_streamlit_style = """
     <style>
     /* Dölj standardmeny och header/footer */
@@ -85,7 +84,7 @@ st.markdown("""
 
     /* Centrera menyn och ta bort den grå bakgrundsrutan */
     div[data-testid="stTabs"] [data-baseweb="tab-list"] {
-        gap: 32px; /* Skapar ett snyggt och luftigt avstånd mellan valen */
+        gap: 32px;
         background-color: transparent !important; 
         padding: 0;
         border: none !important;
@@ -101,26 +100,23 @@ st.markdown("""
         border: none !important;
         color: #64748B;
         font-weight: 600;
-        font-size: 1.2rem; /* Här gör vi texten större! */
+        font-size: 1.2rem;
         transition: all 0.2s ease;
         border-radius: 0 !important;
     }
 
-    /* Färg när musen svävar över */
     div[data-testid="stTabs"] [data-baseweb="tab"]:hover {
         color: #0F172A;
     }
 
-    /* Det AKTIVA valet (Understruket istället för en vit ruta) */
     div[data-testid="stTabs"] [aria-selected="true"] {
         background-color: transparent !important;
         color: #0F172A !important;
         font-weight: 800 !important;
-        box-shadow: none !important; /* Tar bort skuggan */
-        border-bottom: 3px solid #0F172A !important; /* Den snygga understrykningen */
+        box-shadow: none !important;
+        border-bottom: 3px solid #0F172A !important;
     }
 
-    /* Tvinga bort alla Streamlits inbyggda linjer och avdelare under menyn */
     div[data-testid="stTabs"] [data-baseweb="tab-border"],
     div[data-testid="stTabs"] [data-baseweb="tab-highlight"],
     div[data-testid="stTabs"] hr {
@@ -371,7 +367,6 @@ if selected_url_from_history:
     components.html(
         """
         <script>
-        // Leta upp flikarna i webbläsaren och klicka automatiskt på den första
         const tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
         if (tabs.length > 0) {
             tabs[0].click();
@@ -509,7 +504,6 @@ with tab_search:
                         
                         # Om AliExpress: Använd Admitad/AliExpress-deeplink
                         if "aliexpress" in source_lower:
-                            # dropship_url = f"https://ad.admitad.com/g/DITT_ALI_ID/?ulp={original_url}"
                             dropship_url = original_url # Tillfällig tills vi får godkänt av Admitad
                             
                         # Om Temu: Använd Temu-partnerkod
@@ -651,6 +645,18 @@ with tab_about:
         <strong>1. Skanning:</strong> Vi läser av produktinformation och bilder från webbutiken du vill kontrollera.<br>
         <strong>2. Visuell sökning:</strong> Med hjälp av avancerad bildmatchning (Google Lens-teknik) söker vi igenom de största asiatiska grossistplattformarna.<br>
         <strong>3. Avslöjande:</strong> Om samma produkt säljs till en bråkdel av priset hos en grossist, får du en varningsflagg direkt tillsammans med en direktlänk till originalet!
+        </div>
+    """, unsafe_allow_html=True)
+
+    # --- STÖD PROJEKTET (Buy Me a Coffee) ---
+    st.markdown("<h3 style='text-align: center;'>Stöd DropShipKollen ☕</h3>", unsafe_allow_html=True)
+    st.markdown("""
+        <div class="guide-text" style="text-align: center;">
+        Tycker du att verktyget är användbart och vill bidra till att hålla servrarna igång och koden uppdaterad?<br>
+        Du kan bjuda på en kaffe! Det uppskattas enormt.<br><br>
+        <a href="https://www.buymeacoffee.com/dropshipkollen" target="_blank" style="display: inline-block; margin-top: 10px;">
+            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: 217px !important;">
+        </a>
         </div>
     """, unsafe_allow_html=True)
     
