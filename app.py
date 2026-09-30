@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 from dotenv import load_dotenv
 from serpapi import GoogleSearch
 from supabase import create_client, Client
+import streamlit.components.v1 as components
 
 # --- UX & DESIGN CONFIG ---
 # (Måste vara det första st-kommandot i koden)
@@ -77,7 +78,7 @@ st.markdown("""
             text-align: center;
         }
 
-/* Tvinga bort Streamlits egna marginaler */
+    /* Tvinga bort Streamlits egna marginaler */
     div[data-testid="stTabs"] {
         margin-bottom: 2rem;
     }
@@ -365,6 +366,21 @@ selected_url_from_history = query_params.get("url", None)
 # --- TOPPMENY (Nu med Historik som flik) ---
 tab_search, tab_history, tab_about = st.tabs(["🔍 Granska Butik", "🕒 Historik", "📖 Konsumentguide"])
 
+# --- NY FLIK-HOPPARE ---
+if selected_url_from_history:
+    components.html(
+        """
+        <script>
+        // Leta upp flikarna i webbläsaren och klicka automatiskt på den första
+        const tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
+        if (tabs.length > 0) {
+            tabs[0].click();
+        }
+        </script>
+        """,
+        height=0, width=0
+    )
+
 with tab_search:
     # Hero
     st.markdown("""
@@ -622,7 +638,8 @@ with tab_about:
         <strong>3. Avslöjande:</strong> Om samma produkt säljs till en bråkdel av priset hos en grossist, får du en varningsflagg direkt tillsammans med en direktlänk till originalet!
         </div>
     """, unsafe_allow_html=True)
-    # --- SEO & INTEGRITETSPOLICY (Längst ner på sidan) ---
+    
+# --- SEO & INTEGRITETSPOLICY (Längst ner på sidan) ---
 st.divider()
 st.markdown("""
     <div style='text-align: center; color: #64748B; font-size: 0.8rem; max-width: 800px; margin: 2rem auto; line-height: 1.6;'>
