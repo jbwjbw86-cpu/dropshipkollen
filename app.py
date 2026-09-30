@@ -500,7 +500,22 @@ with tab_search:
                     st.divider()
                     
                     dropship_source = match['source'] if match else None
-                    dropship_url = match['url'] if match else None
+                    original_url = match['url'] if match else None
+
+                    # --- AFFILIATE ROUTER ---
+                    dropship_url = original_url
+                    if dropship_source and original_url:
+                        source_lower = dropship_source.lower()
+                        
+                        # Om AliExpress: Använd Admitad/AliExpress-deeplink
+                        if "aliexpress" in source_lower:
+                            # dropship_url = f"https://ad.admitad.com/g/DITT_ALI_ID/?ulp={original_url}"
+                            dropship_url = original_url # Tillfällig tills vi får godkänt av Admitad
+                            
+                        # Om Temu: Använd Temu-partnerkod
+                        elif "temu" in source_lower:
+                            separator = "&" if "?" in original_url else "?"
+                            dropship_url = f"{original_url}{separator}referral_code=alq415484"
 
                     db_data = {
                         "store_url": target_url,
@@ -531,7 +546,7 @@ with tab_search:
                                 st.info(f"📍 Originalkälla: **{match['source']}**")
                                 st.metric(label="Grossistpris", value=match['price'] if match['price'] != "N/A" else "Se länk")
                                 st.caption(f"<div style='text-align: center;'>{match['title']}</div>", unsafe_allow_html=True)
-                                st.link_button(f"Gå till originalet på {match['source']} ↗", match['url'], type="secondary", use_container_width=True)
+                                st.link_button(f"Gå till originalet på {match['source']} ↗", dropship_url, type="secondary", use_container_width=True)
                                 st.markdown('<div class="affiliate-note">* Länken är en potentiell annonslänk som stödjer driften av tjänsten.</div>', unsafe_allow_html=True)
                     
                     elif has_previous_red_flags:
