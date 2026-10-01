@@ -19,6 +19,14 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# Infoga verifieringstagg för Mitgo/Admitad
+verification_tag = """
+    <head>
+        <meta name="mitgo-verification" content="a2164ce2-4770-446b-81c6-9833ce68aa6a" />
+    </head>
+"""
+st.markdown(verification_tag, unsafe_allow_html=True)
+
 # Dölj Streamlit-meny, GitHub-ikon, fotnot och flytande länkar i hörnet
 hide_streamlit_style = """
     <style>
@@ -377,12 +385,12 @@ if selected_url_from_history:
     )
 
 with tab_search:
-    # Hero
+    # Hero (Uppdaterad text)
     st.markdown("""
         <div class="hero-container">
             <div class="badge">🛡️ KONSUMENTKONTROLL</div>
-            <div class="hero-title">Bli inte lurad av överpriser.</div>
-            <div class="hero-subtitle">Många nätbutiker säljer billiga artiklar från Kina med 500% påslag. Klistra in en länk så söker vi efter originalkällan på 5 sekunder.</div>
+            <div class="hero-title">Köp kvalitet, inte dropshipping.</div>
+            <div class="hero-subtitle">Många nätbutiker säljer massproducerade varor från Asien med enorma påslag. Klistra in en länk så hjälper vi dig se bakom fasaden och göra medvetna val.</div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -450,7 +458,7 @@ with tab_search:
                 st.divider()
                 
                 if dropship_source:
-                    st.error("🚨 **DROPSHIPPING BEKRÄFTAT!** Samma produkt finns hos en utländsk grossist.")
+                    st.error("🚨 **DROPSHIPPING BEKRÄFTAT!** Den här produkten kommer med största sannolikhet från en asiatisk lågprisplattform. Vi rekommenderar i första hand att du letar efter motsvarande svenska eller europeiska alternativ. Vill du ändå köpa just den här varan hittar du en länk till originalet nedan.")
                     col1, col2 = st.columns(2)
                     with col1:
                         with st.container(border=True):
@@ -468,7 +476,7 @@ with tab_search:
                                 st.link_button(f"Gå till originalet på {dropship_source} ↗", dropship_url, type="secondary", use_container_width=True)
                                 st.markdown('<div class="affiliate-note">* Länken är en potentiell annonslänk som stödjer driften av tjänsten.</div>', unsafe_allow_html=True)
                 else:
-                    st.success("✅ **GRÖN FLAGG!** Inga tecken på dropshipping hittades för denna länk.")
+                    st.success("✅ **Kvalitetskontroll klar:** Inga direkta matchningar hittades mot asiatiska grossister. Butiken verkar erbjuda unika varor eller ha ett rent register – ett bra tecken på en mer seriös aktör.")
                     col1, col2, col3 = st.columns([1,2,1])
                     with col2:
                         st.image(img_to_show, caption=item_title, use_container_width=True)
@@ -526,7 +534,7 @@ with tab_search:
                         pass
 
                     if match:
-                        st.error("🚨 **DROPSHIPPING BEKRÄFTAT!** Samma produkt finns hos en asiatisk grossist till en bråkdel av priset.")
+                        st.error("🚨 **DROPSHIPPING BEKRÄFTAT!** Den här produkten kommer med största sannolikhet från en asiatisk lågprisplattform. Vi rekommenderar i första hand att du letar efter motsvarande svenska eller europeiska alternativ. Vill du ändå köpa just den här varan hittar du en länk till originalet nedan.")
                         col1, col2 = st.columns(2)
                         with col1:
                             with st.container(border=True):
@@ -544,13 +552,13 @@ with tab_search:
                                 st.markdown('<div class="affiliate-note">* Länken är en potentiell annonslänk som stödjer driften av tjänsten.</div>', unsafe_allow_html=True)
                     
                     elif has_previous_red_flags:
-                        st.warning(f"⚠️ **VARNING: BLANDAT UTBUD**\n\nJust denna produkt ser ren ut, men **{domain_name}** har tidigare fällts för dropshipping i vårt system. Många butiker blandar unika varor med billig kinareport för att vilseleda kunden. Var vaksam!")
+                        st.warning(f"⚠️ **VARNING: BLANDAT UTBUD**\n\nÄven om just denna produkt verkar unik, har **{domain_name}** tidigare kopplats till dropshipping. Många e-handlare blandar seriösa varor med billig import för att vilseleda kunden. Vi rekommenderar att kontrollera leveransvillkoren extra noga.")
                         col1, col2, col3 = st.columns([1,2,1])
                         with col2:
                             st.image(product["image_url"], caption=product['title'], use_container_width=True)
 
                     else:
-                        st.success("✅ **GRÖN FLAGG!** Inga matchningar mot kända grossister hittades för denna artikel, och butiken har ett rent register.")
+                        st.success("✅ **Kvalitetskontroll klar:** Inga direkta matchningar hittades mot asiatiska grossister. Butiken verkar erbjuda unika varor eller ha ett rent register – ett bra tecken på en mer seriös aktör.")
                         col1, col2, col3 = st.columns([1,2,1])
                         with col2:
                             st.image(product["image_url"], caption=product['title'], use_container_width=True)
@@ -613,8 +621,8 @@ with tab_about:
     st.markdown("<h3 style='text-align: center;'>Vad är egentligen Drop-shipping?</h3>", unsafe_allow_html=True)
     st.markdown("""
         <div class="guide-text">
-        Dropshipping i sig är inte en olaglig eller dålig affärsmodell – det är helt enkelt en logistisk lösning där en e-handlare säljer varor utan att ha ett eget lager, och låter en grossist skicka produkten direkt till kunden.<br><br>
-        Problem uppstår dock när mellanhänder säljer massproducerade kinaprylar med <strong>300% till 800% påslag</strong> och marknadsför dem som unika, svenskgjorda eller exklusiva kvalitetsprodukter. Då betalar du ett enormt överpris för något du faktiskt kan köpa direkt själv.
+        Dropshipping i sig är en vanlig logistisk lösning, men som konsument är det lätt att luras av uppblåsta priser på massproducerade varor.<br><br>
+        Vårt mål med DropShipKollen är att hjälpa dig titta bakom fasaden: att undvika onödiga mellanhänder och långa transportsträckor för slit- och slängvaror, och istället uppmuntra till att stötta svenska och europeiska handlare som erbjuder riktig kvalitet och schyssta köpvillkor. Om du ändå väljer att handla varan, ger vi dig länken till källan så att du slipper betala överpris.
         </div>
     """, unsafe_allow_html=True)
     
