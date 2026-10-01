@@ -458,7 +458,7 @@ with tab_search:
                 st.divider()
                 
                 if dropship_source:
-                    st.error("🚨 **DROPSHIPPING BEKRÄFTAT!** Den här produkten kommer med största sannolikhet från en asiatisk lågprisplattform. Vi rekommenderar i första hand att du letar efter motsvarande svenska eller europeiska alternativ. Vill du ändå köpa just den här varan hittar du en länk till originalet nedan.")
+                    st.error("🚨 **DROPSHIPPING BEKRÄFTAT!** Den här produkten kommer med stor sannolikhet från en asiatisk lågprisplattform. Vi rekommenderar i första hand att du letar efter motsvarande svenska eller europeiska alternativ. Vill du ändå köpa just den här varan hittar du en länk till originalet nedan.")
                     col1, col2 = st.columns(2)
                     with col1:
                         with st.container(border=True):
