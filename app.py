@@ -208,6 +208,25 @@ st.markdown("""
             line-height: 1.35;
         }
 
+        .home-info-box {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+            line-height: 1.6;
+            color: #334155;
+        }
+
+        .home-info-box h4 {
+            color: #0F172A;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
         div[data-testid="stMetric"] {
             text-align: center;
             display: flex;
@@ -385,7 +404,7 @@ if selected_url_from_history:
     )
 
 with tab_search:
-    # Hero (Uppdaterad text)
+    # Hero
     st.markdown("""
         <div class="hero-container">
             <div class="badge">🛡️ KONSUMENTKONTROLL</div>
@@ -437,6 +456,14 @@ with tab_search:
                 </div>
             """, unsafe_allow_html=True)
 
+        # --- NYTT TEXTBLOCK UNDER RUTORNA FÖR ADDSENSE & FÖRTROENDE ---
+        st.markdown("""
+            <div class="home-info-box">
+                <h4>Varför finns DropShipKollen?</h4>
+                <p>Många moderna nätbutiker ser ut som etablerade, svenska varumärken men säljer i stället billiga massprodukter från asiatiska grossister med kraftiga påslag. Genom att använda bildigenkänning och transparent konsumentupplysning hjälper vi dig att se igenom fasaden. Vårt mål är att värna om medveten konsumtion, hjälpa dig att hitta rätt pris direkt vid källan – eller uppmuntra till att stötta seriösa handlare med riktig kvalitet och schyssta köpvillkor.</p>
+            </div>
+        """, unsafe_allow_html=True)
+
     if run_search or selected_url_from_history:
         target_url = store_url.strip()
         if not target_url:
@@ -458,7 +485,7 @@ with tab_search:
                 st.divider()
                 
                 if dropship_source:
-                    st.error("🚨 **DROPSHIPPING BEKRÄFTAT!** Den här produkten kommer med stor sannolikhet från en asiatisk lågprisplattform. Vi rekommenderar i första hand att du letar efter motsvarande svenska eller europeiska alternativ. Vill du ändå köpa just den här varan hittar du en länk till originalet nedan.")
+                    st.error("🚨 **DROPSHIPPING BEKRÄFTAT!** Den här produkten kommer med största sannolikhet från en asiatisk lågprisplattform. Vi rekommenderar i första hand att du letar efter motsvarande svenska eller europeiska alternativ. Vill du ändå köpa just den här varan hittar du en länk till originalet nedan.")
                     col1, col2 = st.columns(2)
                     with col1:
                         with st.container(border=True):
