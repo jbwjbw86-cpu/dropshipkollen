@@ -13,7 +13,7 @@ import streamlit.components.v1 as components
 # --- UX & DESIGN CONFIG ---
 # (Måste vara det första st-kommandot i koden)
 st.set_page_config(
-    page_title="DropShipKollen – Avslöja Kinakopiorna", 
+    page_title="DropShipKollen – Konsumentguide & Avslöja Kinakopiorna", 
     page_icon="🕵️‍♂️", 
     layout="centered",
     initial_sidebar_state="collapsed"
@@ -238,11 +238,44 @@ st.markdown("""
             justify-content: center;
         }
 
-        .guide-text {
-            text-align: center;
-            line-height: 1.6;
+        .article-container {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .article-container h2 {
+            color: #0F172A;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .article-container h3 {
+            color: #1E293B;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        .article-container p, .article-container li {
             color: #334155;
-            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .article-container ul {
+            margin-bottom: 1rem;
+            padding-left: 20px;
         }
 
         .affiliate-note {
@@ -386,8 +419,8 @@ def get_existing_search(store_url: str):
 query_params = st.query_params
 selected_url_from_history = query_params.get("url", None)
 
-# --- TOPPMENY (Nu med Historik som flik) ---
-tab_search, tab_history, tab_about = st.tabs(["🔍 Granska Butik", "🕒 Historik", "📖 Konsumentguide"])
+# --- TOPPMENY ---
+tab_search, tab_history, tab_about = st.tabs(["🔍 Granska Butik", "🕒 Historik", "📖 Artiklar & Konsumentguide"])
 
 # --- NY FLIK-HOPPARE ---
 if selected_url_from_history:
@@ -456,7 +489,6 @@ with tab_search:
                 </div>
             """, unsafe_allow_html=True)
 
-        # --- NYTT TEXTBLOCK UNDER RUTORNA FÖR ADDSENSE & FÖRTROENDE ---
         st.markdown("""
             <div class="home-info-box">
                 <h4>Varför finns DropShipKollen?</h4>
@@ -537,11 +569,9 @@ with tab_search:
                     if dropship_source and original_url:
                         source_lower = dropship_source.lower()
                         
-                        # Om AliExpress: Använd Admitad/AliExpress-deeplink
                         if "aliexpress" in source_lower:
-                            dropship_url = original_url # Tillfällig tills vi får godkänt av Admitad
+                            dropship_url = original_url
                             
-                        # Om Temu: Använd Temu-partnerkod
                         elif "temu" in source_lower:
                             separator = "&" if "?" in original_url else "?"
                             dropship_url = f"{original_url}{separator}referral_code=alq415484"
@@ -645,57 +675,75 @@ with tab_history:
         st.error("Kunde inte ladda historik.")
 
 with tab_about:
-    st.markdown("<h3 style='text-align: center;'>Vad är egentligen Drop-shipping?</h3>", unsafe_allow_html=True)
-    st.markdown("""
-        <div class="guide-text">
-        Dropshipping i sig är en vanlig logistisk lösning, men som konsument är det lätt att luras av uppblåsta priser på massproducerade varor.<br><br>
-        Vårt mål med DropShipKollen är att hjälpa dig titta bakom fasaden: att undvika onödiga mellanhänder och långa transportsträckor för slit- och slängvaror, och istället uppmuntra till att stötta svenska och europeiska handlare som erbjuder riktig kvalitet och schyssta köpvillkor. Om du ändå väljer att handla varan, ger vi dig länken till källan så att du slipper betala överpris.
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; margin-bottom: 2rem;'>Artiklar, Guider & Konsumentupplysning</h2>", unsafe_allow_html=True)
     
-    st.markdown("<h3 style='text-align: center;'>Hur fungerar det med skatter, moms och tull vid egenimport?</h3>", unsafe_allow_html=True)
+    # Artikel 1
     st.markdown("""
-        <div class="guide-text">
-        Om du väljer att handla direkt från lågprisjättar som Temu eller AliExpress (utan svensk mellanhand) är det viktigt att ha koll på reglerna för import utanför EU:<br><br>
-        <strong>Moms:</strong> Svensk moms (25%) tas ut på alla varor som importeras till EU. På de stora marknadsplatserna betalar du oftast momsen direkt i kassan (via IOSS-systemet), vilket gör att paketet tullklareras automatiskt utan strul.<br><br>
-        <strong>Tull och avgifter:</strong> EU har slopat den gamla tullfrihetsgränsen på 150 euro för småförsändelser. För varor som köps in via e-handel från länder utanför EU tillkommer en schablontull på 3 euro per artikel (för varor under 150 euro). För dyrare varor (över 150 euro) gäller ordinarie tullsats beroende på produkttyp.<br><br>
-        <strong>Förtullningsavgift:</strong> Om e-handelsplatsen inte sköter momsinbetalningen i förväg, tar fraktbolaget (som PostNord) ut en administrativ avgift för tullhanteringen (ofta mellan 75 och 125 kr) när paketet når Sverige.<br><br>
-        <strong>Slutsatsen?</strong> Genom att avslöja dropshipparna hjälper DropShipKollen dig att antingen handla varan till det pris den faktiskt är värd direkt från källan, eller att medvetet välja svenska e-handlare som erbjuder snabba leveranser, svensk konsumentköplag och riktig kundservice.
-        </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("<h3 style='text-align: center;'>Hur finansieras tjänsten? (Öppenhet & Affiliate)</h3>", unsafe_allow_html=True)
-    st.markdown("""
-        <div class="guide-text">
-        DropShipKollen är och kommer alltid att vara <strong>helt gratis</strong> för konsumenter att använda.<br><br>
-        För att täcka serverkostnader, API-anrop och vidareutveckling använder vi ibland affiliatelänkar (annonslänkar). När du klickar på en länk till ett original hos en grossist och handlar kan vi få en liten provision från plattformen – helt utan någon extra kostnad för dig.<br><br>
-        Detta påverkar aldrig våra analysresultat eller bedömningar. Vårt mål är alltid att ge dig 100% oberoende och ärlig konsumentupplysning.
+        <div class="article-container">
+            <h2>Så avslöjar du dropshipping i svenska nätbutiker</h2>
+            <p>E-handeln har fullkomligt exploderat av snyggt paketerade webbutiker som marknadsför trendiga produkter som om de vore exklusiva, egenodesignade svenska varor. Bakom fasaden handlar det dock ofta om klassisk dropshipping – där handlaren inte har ett eget lager, utan beställer varan direkt från en asiatisk grossist när kunden gör sitt köp.</p>
+            
+            <h3>Vanliga varningssignaler</h3>
+            <ul>
+                <li><strong>Otydliga leveranstider:</strong> Om leveransen tar 2–4 veckor är det en stark indikation på att varan skickas från ett utomeuropeiskt fjärrlager.</li>
+                <li><strong>Saknade företagsuppgifter:</strong> Inga organisationsnummer, svårt att hitta en fysisk adress eller avsaknad av svensk kundtjänst.</li>
+                <li><strong>Konstigt bredt utbud:</strong> Samma butik säljer allt från köksprylar till hundkläder och avancerad elektronik utan någon röd tråd.</li>
+                <li><strong>Uppblåsta priser:</strong> En produkt som kostar 30 kr hos grossisten säljs för 499 kr med en nedräknad rea-klocka som skapar falsk tidspress.</li>
+            </ul>
+            <p>Genom att använda DropShipKollen kan du på några sekunder kontrollera om produkten finns tillgänglig till en bråkdel av priset direkt vid källan, eller om butiken erbjuder unika kvalitetsprodukter.</p>
         </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<h3 style='text-align: center;'>Hur fungerar DropShipKollen?</h3>", unsafe_allow_html=True)
+    # Artikel 2
     st.markdown("""
-        <div class="guide-text">
-        Tjänsten hjälper dig att se igenom fasaden på några sekunder:<br>
-        <strong>1. Skanning:</strong> Vi läser av produktinformation och bilder från webbutiken du vill kontrollera.<br>
-        <strong>2. Visuell sökning:</strong> Med hjälp av avancerad bildmatchning (Google Lens-teknik) söker vi igenom de största asiatiska grossistplattformarna.<br>
-        <strong>3. Avslöjande:</strong> Om samma produkt säljs till en bråkdel av priset hos en grossist, får du en varningsflagg direkt tillsammans med en direktlänk till originalet!
+        <div class="article-container">
+            <h2>Egenimport från Kina: Regler för tull, moms och avgifter</h2>
+            <p>Om du som konsument väljer att hoppa över den svenska mellanhanden och handla direkt från lågprisjättar som AliExpress, Temu eller DHgate är det viktigt att ha koll på vad som gäller vid import till EU.</p>
+            
+            <h3>Moms och IOSS-systemet</h3>
+            <p>Sedan några år tillbaka tas svensk moms (25 %) ut på alla varor som importeras till EU, oavsett värde. De stora marknadsplatserna är idag anslutna till EU:s IOSS-system (Import One Stop Shop), vilket innebär att du betalar momsen direkt i kassan. På så sätt tullklareras paketet automatiskt när det når Sverige utan att du drabbas av otrevliga överraskningar.</p>
+
+            <h3>Tull och administrativa avgifter</h3>
+            <p>För de flesta mindre försändelser under 150 euro tillkommer ingen tull, men en schablonavgift kan förekomma beroende på varukategori. Om e-handelsplatsen mot förmodan inte har dragit momsen i förväg tar fraktbolaget (som PostNord) ut en administrationsavgift för tullhanteringen när paketet anländer.</p>
         </div>
     """, unsafe_allow_html=True)
 
-    # --- STÖD PROJEKTET (Buy Me a Coffee) ---
-    st.markdown("<h3 style='text-align: center;'>Stöd DropShipKollen ☕</h3>", unsafe_allow_html=True)
+    # Artikel 3
     st.markdown("""
-        <div class="guide-text" style="text-align: center;">
-        Tycker du att verktyget är användbart och vill bidra till att hålla servrarna igång och koden uppdaterad?<br>
-        Du kan bjuda på en kaffe! Det uppskattas enormt.<br><br>
-        <a href="https://www.buymeacoffee.com/dropshipkollen" target="_blank" style="display: inline-block; margin-top: 10px;">
-            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: 217px !important;">
-        </a>
+        <div class="article-container">
+            <h2>Konsumentköplagen vs. Direktimport: Varför lokal kvalitet lönar sig</h2>
+            <p>Att köpa direkt från asiatiska grossister kan spara dig pengar, men det kommer med en baksida. När du handlar av en seriös svensk eller europeisk e-handlare betalar du inte bara för själva varan – du betalar för trygghet.</p>
+            
+            <h3>Det här skyddar den svenska lagen</h3>
+            <ul>
+                <li><strong>3 års reklamationsrätt:</strong> Du har laglig rätt att reklamera ursprungliga fel på produkten i upp till tre år.</li>
+                <li><strong>14 dagars ångerrätt:</strong> Full ångerrätt enligt svensk distansköplag med tydliga villkor för returer.</li>
+                <li><strong>Säkerhetsstandarder:</strong> Produkter som säljs inom EU måste uppfylla stränga krav gällande CE-märkning, elsäkerhet och kemikalieinnehåll (som REACH).</li>
+            </ul>
+            <p>Vårt mål med DropShipKollen är inte att uppmana till massimport av billigt slit-och-släng, utan att ge dig makten att syna fulspel – så att du kan fatta välgrundade beslut och stötta handlare som levererar verklig kvalitet.</p>
+        </div>
+    """, unsafe_allow_html=True)
+
+    # Om finansiering
+    st.markdown("""
+        <div class="article-container">
+            <h2>Om finansiering & Affiliate</h2>
+            <p>DropShipKollen är och kommer alltid att vara helt gratis för konsumenter. För att täcka kostnader för servrar och API-anrop använder vi i vissa fall affiliatelänkar till grossister. När du klickar på en länk och handlar kan vi få en mindre provision, helt utan extra kostnad för dig. Detta påverkar aldrig våra analysresultat.</p>
+        </div>
+    """, unsafe_allow_html=True)
+
+    # Stöd projektet
+    st.markdown("""
+        <div class="article-container" style="text-align: center;">
+            <h3>Stöd DropShipKollen ☕</h3>
+            <p>Tycker du att verktyget är användbart och vill bidra till att hålla servrarna igång? Du kan bjuda på en kaffe!</p>
+            <a href="https://www.buymeacoffee.com/dropshipkollen" target="_blank" style="display: inline-block; margin-top: 10px;">
+                <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: 217px !important;">
+            </a>
         </div>
     """, unsafe_allow_html=True)
     
-# --- SEO & INTEGRITETSPOLICY (Längst ner på sidan) ---
+# --- SEO & INTEGRITETSPOLICY ---
 st.divider()
 st.markdown("""
     <div style='text-align: center; color: #64748B; font-size: 0.8rem; max-width: 800px; margin: 2rem auto; line-height: 1.6;'>
