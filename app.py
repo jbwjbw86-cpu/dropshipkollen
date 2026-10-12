@@ -334,7 +334,13 @@ def find_match(image_url: str):
     params = {"engine": "google_lens", "url": image_url, "api_key": SERPAPI_KEY, "country": "se", "hl": "sv"}
     try:
         search = GoogleSearch(params)
-        for match in search.get_dict().get("visual_matches", []):
+        results = search.get_dict()
+        
+        # Fånga upp om API:et klagar på att sökningarna är slut
+        if "error" in results:
+            return {"is_api_error": True, "error_msg": results["error"]}
+            
+        for match in results.get("visual_matches", []):
             link = match.get("link", "").lower()
             for domain in WHOLESALE_DOMAINS:
                 if domain in link:
@@ -348,7 +354,7 @@ def find_match(image_url: str):
                         "title": match.get("title")
                     }
     except Exception:
-        pass
+        return {"is_api_error": True, "error_msg": "API Timeout"}
     return None
 
 def check_domain_history(store_url: str):
@@ -516,9 +522,16 @@ with tab_search:
                         st.write(f"Identifierade: **{product['title']}**")
                         st.write("Skannar databaser och bildmatchar med Google Lens...")
                         match = find_match(product["image_url"])
-                        status.update(label="Analysen är klar!", state="complete", expanded=False)
+                        
+                        # NYTT: Kolla om vi fick ett API-fel
+                        if isinstance(match, dict) and match.get("is_api_error"):
+                            status.update(label="Systemet är överbelastat", state="error", expanded=False)
+                            st.error("📉 **Oj, vilket tryck det är just nu!**\n\nEfter uppmärksamheten i media har vi slagit i taket för våra bildsökningar hos vår serverleverantör. Du kan fortfarande bläddra i historiken, men nya sökningar fungerar inte just nu. Vi jobbar på att utöka kapaciteten – försök gärna igen lite senare!")
+                            product = None # Avbryt visningen och dölj knappar
+                        else:
+                            status.update(label="Analysen är klar!", state="complete", expanded=False)
 
-                if product and product["image_url"]:
+                if product and product.get("image_url"):
                     st.divider()
                     
                     dropship_source = match['source'] if match else None
