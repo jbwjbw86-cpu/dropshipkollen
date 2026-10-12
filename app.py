@@ -238,46 +238,6 @@ st.markdown("""
             justify-content: center;
         }
 
-        .article-container {
-            text-align: left;
-            max-width: 800px;
-            margin: 0 auto 3rem auto;
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 12px;
-            padding: 32px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-
-        .article-container h2 {
-            color: #0F172A;
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            text-align: left;
-        }
-
-        .article-container h3 {
-            color: #1E293B;
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-            text-align: left;
-        }
-
-        .article-container p, .article-container li {
-            color: #334155;
-            line-height: 1.7;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .article-container ul {
-            margin-bottom: 1rem;
-            padding-left: 20px;
-        }
-
         .affiliate-note {
             font-size: 0.75rem;
             color: #94A3B8;
@@ -678,63 +638,51 @@ with tab_about:
     st.markdown("<h2 style='text-align: center; margin-bottom: 2rem;'>Artiklar, Guider & Konsumentupplysning</h2>", unsafe_allow_html=True)
     
     # Artikel 1
-    st.markdown("""
-        <div class="article-container">
-            <h2>Så avslöjar du dropshipping i svenska nätbutiker</h2>
-            <p>E-handeln har fullkomligt exploderat av snyggt paketerade webbutiker som marknadsför trendiga produkter som om de vore exklusiva, egenodesignade svenska varor. Bakom fasaden handlar det dock ofta om klassisk dropshipping – där handlaren inte har ett eget lager, utan beställer varan direkt från en asiatisk grossist när kunden gör sitt köp.</p>
-            
-            <h3>Vanliga varningssignaler</h3>
-            <ul>
-                <li><strong>Otydliga leveranstider:</strong> Om leveransen tar 2–4 veckor är det en stark indikation på att varan skickas från ett utomeuropeiskt fjärrlager.</li>
-                <li><strong>Saknade företagsuppgifter:</strong> Inga organisationsnummer, svårt att hitta en fysisk adress eller avsaknad av svensk kundtjänst.</li>
-                <li><strong>Konstigt bredt utbud:</strong> Samma butik säljer allt från köksprylar till hundkläder och avancerad elektronik utan någon röd tråd.</li>
-                <li><strong>Uppblåsta priser:</strong> En produkt som kostar 30 kr hos grossisten säljs för 499 kr med en nedräknad rea-klocka som skapar falsk tidspress.</li>
-            </ul>
-            <p>Genom att använda DropShipKollen kan du på några sekunder kontrollera om produkten finns tillgänglig till en bråkdel av priset direkt vid källan, eller om butiken erbjuder unika kvalitetsprodukter.</p>
-        </div>
-    """, unsafe_allow_html=True)
+    with st.container(border=True):
+        st.markdown("## Så avslöjar du dropshipping i svenska nätbutiker")
+        st.markdown("E-handeln har fullkomligt exploderat av snyggt paketerade webbutiker som marknadsför trendiga produkter som om de vore exklusiva, egenodesignade svenska varor. Bakom fasaden handlar det dock ofta om klassisk dropshipping – där handlaren inte har ett eget lager, utan beställer varan direkt från en asiatisk grossist när kunden gör sitt köp.")
+        
+        st.markdown("### Vanliga varningssignaler")
+        st.markdown("""
+        * **Otydliga leveranstider:** Om leveransen tar 2–4 veckor är det en stark indikation på att varan skickas från ett utomeuropeiskt fjärrlager.
+        * **Saknade företagsuppgifter:** Inga organisationsnummer, svårt att hitta en fysisk adress eller avsaknad av svensk kundtjänst.
+        * **Konstigt brett utbud:** Samma butik säljer allt från köksprylar till hundkläder och avancerad elektronik utan någon röd tråd.
+        * **Uppblåsta priser:** En produkt som kostar 30 kr hos grossisten säljs för 499 kr med en nedräknad rea-klocka som skapar falsk tidspress.
+        """)
+        st.markdown("Genom att använda DropShipKollen kan du på några sekunder kontrollera om produkten finns tillgänglig till en bråkdel av priset direkt vid källan, eller om butiken erbjuder unika kvalitetsprodukter.")
 
     # Artikel 2
-    st.markdown("""
-        <div class="article-container">
-            <h2>Egenimport från Kina: Regler för tull, moms och avgifter</h2>
-            <p>Om du som konsument väljer att hoppa över den svenska mellanhanden och handla direkt från lågprisjättar som AliExpress, Temu eller DHgate är det viktigt att ha koll på vad som gäller vid import till EU.</p>
-            
-            <h3>Moms och IOSS-systemet</h3>
-            <p>Sedan några år tillbaka tas svensk moms (25 %) ut på alla varor som importeras till EU, oavsett värde. De stora marknadsplatserna är idag anslutna till EU:s IOSS-system (Import One Stop Shop), vilket innebär att du betalar momsen direkt i kassan. På så sätt tullklareras paketet automatiskt när det når Sverige utan att du drabbas av otrevliga överraskningar.</p>
+    with st.container(border=True):
+        st.markdown("## Egenimport från Kina: Regler för tull, moms och avgifter")
+        st.markdown("Om du som konsument väljer att hoppa över den svenska mellanhanden och handla direkt från lågprisjättar som AliExpress, Temu eller DHgate är det viktigt att ha koll på vad som gäller vid import till EU.")
+        
+        st.markdown("### Moms och IOSS-systemet")
+        st.markdown("Sedan några år tillbaka tas svensk moms (25 %) ut på alla varor som importeras till EU, oavsett värde. De stora marknadsplatserna är idag anslutna till EU:s IOSS-system (Import One Stop Shop), vilket innebär att du betalar momsen direkt i kassan. På så sätt tullklareras paketet automatiskt när det når Sverige utan att du drabbas av otrevliga överraskningar.")
 
-            <h3>Tull och administrativa avgifter</h3>
-            <p>För de flesta mindre försändelser under 150 euro tillkommer ingen tull, men en schablonavgift kan förekomma beroende på varukategori. Om e-handelsplatsen mot förmodan inte har dragit momsen i förväg tar fraktbolaget (som PostNord) ut en administrationsavgift för tullhanteringen när paketet anländer.</p>
-        </div>
-    """, unsafe_allow_html=True)
+        st.markdown("### Tull och administrativa avgifter")
+        st.markdown("För de flesta mindre försändelser under 150 euro tillkommer ingen tull, men en schablonavgift kan förekomma beroende på varukategori. Om e-handelsplatsen mot förmodan inte har dragit momsen i förväg tar fraktbolaget (som PostNord) ut en administrationsavgift för tullhanteringen när paketet anländer.")
 
     # Artikel 3
-    st.markdown("""
-        <div class="article-container">
-            <h2>Konsumentköplagen vs. Direktimport: Varför lokal kvalitet lönar sig</h2>
-            <p>Att köpa direkt från asiatiska grossister kan spara dig pengar, men det kommer med en baksida. När du handlar av en seriös svensk eller europeisk e-handlare betalar du inte bara för själva varan – du betalar för trygghet.</p>
-            
-            <h3>Det här skyddar den svenska lagen</h3>
-            <ul>
-                <li><strong>3 års reklamationsrätt:</strong> Du har laglig rätt att reklamera ursprungliga fel på produkten i upp till tre år.</li>
-                <li><strong>14 dagars ångerrätt:</strong> Full ångerrätt enligt svensk distansköplag med tydliga villkor för returer.</li>
-                <li><strong>Säkerhetsstandarder:</strong> Produkter som säljs inom EU måste uppfylla stränga krav gällande CE-märkning, elsäkerhet och kemikalieinnehåll (som REACH).</li>
-            </ul>
-            <p>Vårt mål med DropShipKollen är inte att uppmana till massimport av billigt slit-och-släng, utan att ge dig makten att syna fulspel – så att du kan fatta välgrundade beslut och stötta handlare som levererar verklig kvalitet.</p>
-        </div>
-    """, unsafe_allow_html=True)
+    with st.container(border=True):
+        st.markdown("## Konsumentköplagen vs. Direktimport: Varför lokal kvalitet lönar sig")
+        st.markdown("Att köpa direkt från asiatiska grossister kan spara dig pengar, men det kommer med en baksida. När du handlar av en seriös svensk eller europeisk e-handlare betalar du inte bara för själva varan – du betalar för trygghet.")
+        
+        st.markdown("### Det här skyddar den svenska lagen")
+        st.markdown("""
+        * **3 års reklamationsrätt:** Du har laglig rätt att reklamera ursprungliga fel på produkten i upp till tre år.
+        * **14 dagars ångerrätt:** Full ångerrätt enligt svensk distansköplag med tydliga villkor för returer.
+        * **Säkerhetsstandarder:** Produkter som säljs inom EU måste uppfylla stränga krav gällande CE-märkning, elsäkerhet och kemikalieinnehåll (som REACH).
+        """)
+        st.markdown("Vårt mål med DropShipKollen är inte att uppmana till massimport av billigt slit-och-släng, utan att ge dig makten att syna fulspel – så att du kan fatta välgrundade beslut och stötta handlare som levererar verklig kvalitet.")
 
     # Om finansiering
-    st.markdown("""
-        <div class="article-container">
-            <h2>Om finansiering & Affiliate</h2>
-            <p>DropShipKollen är och kommer alltid att vara helt gratis för konsumenter. För att täcka kostnader för servrar och API-anrop använder vi i vissa fall affiliatelänkar till grossister. När du klickar på en länk och handlar kan vi få en mindre provision, helt utan extra kostnad för dig. Detta påverkar aldrig våra analysresultat.</p>
-        </div>
-    """, unsafe_allow_html=True)
+    with st.container(border=True):
+        st.markdown("## Om finansiering & Affiliate")
+        st.markdown("DropShipKollen är och kommer alltid att vara helt gratis för konsumenter. För att täcka kostnader för servrar och API-anrop använder vi i vissa fall affiliatelänkar till grossister. När du klickar på en länk och handlar kan vi få en mindre provision, helt utan extra kostnad för dig. Detta påverkar aldrig våra analysresultat.")
 
     # Stöd projektet
     st.markdown("""
-        <div class="article-container" style="text-align: center;">
+        <div style='text-align: center; margin-top: 2rem; padding: 20px;'>
             <h3>Stöd DropShipKollen ☕</h3>
             <p>Tycker du att verktyget är användbart och vill bidra till att hålla servrarna igång? Du kan bjuda på en kaffe!</p>
             <a href="https://www.buymeacoffee.com/dropshipkollen" target="_blank" style="display: inline-block; margin-top: 10px;">
